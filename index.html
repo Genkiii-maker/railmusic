@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#172033">
+  <title>羽あり地上 配線生成</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header class="pageHeader">
+      <div>
+        <p class="eyebrow">SUPER MARIO MAKER 2</p>
+        <h1>羽あり地上 配線生成</h1>
+        <p class="sub">TrackConductor の配線生成部分を、羽あり地上専用に切り出した版。</p>
+      </div>
+      <span class="badge">羽あり地上</span>
+    </header>
+
+    <section class="panel">
+      <h2>配線生成</h2>
+
+      <div class="controls">
+        <label class="labelInput">
+          <span>Delay</span>
+          <input id="inputWiringDelay" type="number" inputmode="numeric" step="1" placeholder="例: 200">
+        </label>
+
+        <label class="labelInput">
+          <span>高さ</span>
+          <input id="inputWiringHeight" type="number" inputmode="numeric" step="1" min="1" placeholder="例: 10">
+        </label>
+
+        <label class="labelInput">
+          <span>着地方法</span>
+          <select id="selectWiringLanding">
+            <option value="general">通常</option>
+            <option value="second">2マス目</option>
+            <option value="vertical">垂直</option>
+            <option value="diagonal">斜め</option>
+          </select>
+        </label>
+
+        <button id="buttonFindWiring" type="button">配線を検索</button>
+      </div>
+
+      <div class="viewRow">
+        <label class="labelInput compact">
+          <span>並び順</span>
+          <select id="selectWiringOrder">
+            <option>↑ 小 → 大 / ↓ 小 → 大</option>
+            <option>↑ 大 → 小 / ↓ 小 → 大</option>
+            <option>↑ 小 → 大 / ↓ 大 → 小</option>
+            <option>↑ 大 → 小 / ↓ 大 → 小</option>
+          </select>
+        </label>
+
+        <label class="checkLabel">
+          <input id="checkWiringView" type="checkbox" checked>
+          <span>検索後に先頭を表示</span>
+        </label>
+      </div>
+
+      <div class="resultLayout">
+        <div id="divWiring">
+          <canvas id="canvasWiring" width="32" height="320"></canvas>
+        </div>
+
+        <div class="results">
+          <div class="resultBlock">
+            <p class="pResult"><span data-l>◎</span> 一致（0f）</p>
+            <div class="spanWiringResults" data-result="0"></div>
+          </div>
+
+          <div class="resultBlock">
+            <p class="pResult"><span data-l>○</span> 近い（±1f）</p>
+            <div class="spanWiringResults" data-result="1"></div>
+          </div>
+
+          <div class="resultBlock">
+            <p class="pResult"><span data-l>△</span> ずれ（±2f）</p>
+            <div class="spanWiringResults" data-result="2"></div>
+          </div>
+
+          <p id="message" class="message" aria-live="polite">Delay と高さを入力して検索してください。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel notes">
+      <h2>表記</h2>
+      <p><code>↑R1G2R1-G2R1</code> のような文字列が配線パターン。結果をタップすると左の図が切り替わります。</p>
+      <p>計算は羽あり・地上の <code>relativeRailDelays</code>、<code>upOptions</code>、<code>gaps</code>、着地別加速度データを使用します。</p>
+    </section>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
