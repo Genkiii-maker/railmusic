@@ -1,101 +1,296 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#172033">
-  <title>羽あり地上 配線生成</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=0.7">
+
+  <link rel="icon" href="../general/images/favicon.ico">
+
+  <link rel="stylesheet" href="../general/style.css">
+  <script src="../general/script.js" defer></script>
+
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <script src="midiParser.js" defer></script>
+  <script src="data.js" defer></script>
+  <script src="script.js" defer></script>
+
+  <title data-l="title"></title>
 </head>
+
 <body>
   <main>
-    <header class="pageHeader">
-      <div>
-        <p class="eyebrow">SUPER MARIO MAKER 2</p>
-        <h1>羽あり地上 配線生成</h1>
-        <p class="sub">TrackConductor の配線生成部分を、羽あり地上専用に切り出した版。</p>
+    <header>
+      <h1>
+        <a href="../top/index.html" data-l="head.top"></a>
+
+        <a href="https://x.com/Shamoji_SMM" target="_blank">
+          <img src="../general/images/xIcon.jpg" title="made by @Shamoji_SMM">
+        </a>
+      </h1>
+
+      <div class="spaceBottom">
+        <p class="pText" data-l="text.h1Desc"></p>
+        <p class="pDescription gray">Last Update: 2025/Apr/28</p>
       </div>
-      <span class="badge">羽あり地上</span>
+
+      <label class="labelInput">
+        Language:
+        <select id="selectLanguage"></select>
+      </label>
     </header>
 
-    <section class="panel">
-      <h2>配線生成</h2>
+    <hr>
+    <section>
+      <h2 data-l="head.collectingGenerator"></h2>
+      <p class="pSubH" data-l="text.collectingGeneratorDesc"></p><br>
 
-      <div class="controls">
-        <label class="labelInput">
-          <span>Delay</span>
-          <input id="inputWiringDelay" type="number" inputmode="numeric" step="1" placeholder="例: 200">
-        </label>
+      <label class="labelInput">
+        <span data-l="label.selectType"></span>
 
-        <label class="labelInput">
-          <span>高さ</span>
-          <input id="inputWiringHeight" type="number" inputmode="numeric" step="1" min="1" placeholder="例: 10">
-        </label>
+        <select id="selectType">
+          <option value="wing-ground" data-l="option.wing-ground" selected></option>
+          <option value="noWing-ground" data-l="option.noWing-ground"></option>
+          <option value="wing-water" data-l="option.wing-water"></option>
+          <option value="noWing-water" data-l="option.noWing-water"></option>
+        </select>
+      </label><br>
 
-        <label class="labelInput">
-          <span>着地方法</span>
-          <select id="selectWiringLanding">
-            <option value="general">通常</option>
-            <option value="second">2マス目</option>
-            <option value="vertical">垂直</option>
-            <option value="diagonal">斜め</option>
-          </select>
-        </label>
+      <label class="labelInput">
+        <span data-l="label.inputSmf"></span>
+        <input id="inputSmf" type="file" accept=".midi, .mid, .smf">
+      </label>
 
-        <button id="buttonFindWiring" type="button">配線を検索</button>
+      <label class="labelInput">
+        <span data-l="label.selectTrack"></span>
+        <select id="selectTrack"></select>
+      </label><br>
+
+      <label class="labelInput spaceBottom">
+        <button id="buttonLoadSmf" data-l="buttonLoadSmf"></button>
+      </label><br>
+
+      <label class="labelInput">
+        <span data-l="label.inputTickUnit"></span>
+        <input id="inputTickUnit" type="number" value="480" step="1" min="1">
+      </label><br>
+
+      <label class="labelInput spaceRight">
+        <span data-l="label.inputBeatValue"></span>
+        <input id="inputBeatValue" type="number" step="any">
+      </label>
+
+      <p class="pResult">
+        <span data-l="label.spanBpm"></span>
+        <span id="spanBpm"></span>
+      </p><br>
+
+      <label class="labelInput">
+        <span data-l="label.selectBaseKey"></span>
+        <select id="selectBaseKey"></select>
+      </label>
+
+      <label class="labelInput spaceRight">
+        <button id="buttonPlay" data-l="button.play"></button>
+      </label>
+
+      <label class="labelInput">
+        <span data-l="label.selectInstrument"></span>
+        <select id="selectInstrument">
+          <option data-l="option.sine"></option>
+          <option data-l="option.triangle"></option>
+          <option data-l="option.square" selected></option>
+          <option data-l="option.sawtooth"></option>
+        </select>
+      </label>
+
+      <label class="labelInput">
+        <button id="buttonStopPlay" data-l="button.stopPlay"></button>
+      </label>
+
+      <div class="divScroll">
+        <table id="table0">
+          <tr><th data-l="cell.index"></th></tr>
+          <tr><th data-l="cell.memo"></th></tr>
+          <tr><th>
+            <label class="labelInput">
+              <select id="selectNoteInput">
+                <option data-l="option.tickUnit" selected></option>
+                <option data-l="option.nthNote"></option>
+              </select>
+            </label>
+          </th></tr>
+          <tr><th data-l="cell.noteValue"></th></tr>
+          <tr><th data-l="cell.notePitch"></th></tr>
+        </table>
       </div>
 
-      <div class="viewRow">
-        <label class="labelInput compact">
-          <span>並び順</span>
+      <label class="labelInput">
+        <button id="buttonCalcTable0" data-l="button.calcTable0"></button>
+      </label><br>
+
+      <label class="labelInput">
+        <span data-l="label.selectLoading"></span>
+        <select id="selectLoading">
+          <option data-l="option.instantLoad" selected></option>
+          <option data-l="option.freeFall"></option>
+          <option data-l="option.verticalScroll"></option>
+          <option data-l="option.horizontalScroll"></option>
+        </select>
+      </label>
+
+      <label class="labelInput invisible">
+        <select id="selectLoadingInput">
+          <option data-l="option.custom"></option>
+          <option data-l="option.slownessAve" selected></option>
+          <option data-l="option.slownessCycle"></option>
+        </select>
+      </label><br>
+
+      <label class="labelInput invisible">
+        <span data-l="label.inputScrollSlownessAve"></span>
+        <input id="inputScrollSlownessAve" type="number" step="any">
+      </label>
+
+      <label class="labelInput invisible">
+        <span data-l="label.inputScrollSlownessCycle"></span>
+        <input id="inputScrollSlownessCycle" type="text" placeholder="e.g. 6, 7, 6, 6, 7">
+      </label>
+
+      <label class="labelInput">
+        <span data-l="label.selectLanding"></span>
+        <select id="selectLanding">
+          <option data-l="option.custom"></option>
+        </select>
+      </label>
+
+      <div class="divScroll">
+        <table id="table1">
+          <tr><th data-l="cell.index"></th></tr>
+          <tr><th data-l="cell.memo"></th></tr>
+          <tr><th data-l="cell.time"></th></tr>
+          <tr><th data-l="cell.interColumnDelay"></th></tr>
+          <tr class="invisible"><th data-l="cell.scrollDelay"></th></tr>
+          <tr><th data-l="cell.yDifference"></th></tr>
+        </table>
+      </div>
+
+      <label class="labelInput spaceRight">
+        <span data-l="label.inputBaseDelay"></span>
+        <input id="inputBaseDelay" type="number" step="1">
+      </label>
+
+      <label class="labelInput">
+        <span data-l="label.inputBaseHeight"></span>
+        <input id="inputBaseHeight" type="number" step="1" min="0">
+      </label><br>
+
+      <label class="labelInput spaceRight">
+        <button id="buttonSortWirings" data-l="buttonSortWirings"></button>
+      </label>
+
+      <p class="pResult">
+        <span id="spanEvals"></span>
+      </p>
+
+      <div class="divScroll">
+        <table id="table2">
+          <tr><th data-l="cell.index"></th></tr>
+          <tr><th data-l="cell.memo"></th></tr>
+          <tr><th data-l="cell.delay"></th></tr>
+          <tr><th data-l="cell.height"></th></tr>
+          <tr><th data-l="cell.isWirable"></th></tr>
+          <tr><th data-l="cell.show"></th></tr>
+        </table>
+      </div>
+
+      <label class="labelInput spaceRight">
+        <button id="buttonChangeOverview" data-l="button.changeOverview"></button>
+      </label>
+
+      <p class="pResult">
+        <span id="spanWiringData"></span>
+      </p><br>
+
+      <div id="divOverview" class="invisible">
+        <canvas id="canvasOverview"></canvas>
+        <canvas id="canvasOverviewSelect"></canvas>
+      </div>
+
+    </section>
+
+    <hr>
+    <section>
+      <h2 data-l="head.wiringGenerator"></h2>
+      <p class="pSubH" data-l="text.wiringGeneratorDesc"></p><br>
+
+      <canvas id="canvasWiring" width="32"></canvas>
+
+      <div id="divWiring">
+        <label class="labelInput spaceRight">
+          <span data-l="label.inputWiringDelay"></span>
+          <input id="inputWiringDelay" type="number" step="1">
+        </label>
+
+        <label class="labelInput">
+          <span data-l="label.inputWiringHeight"></span>
+          <input id="inputWiringHeight" type="number" step="1" min="1">
+        </label><br>
+
+        <label class="labelInput spaceRight">
+          <span data-l="label.selectWiringType"></span>
+          <select id="selectWiringType"></select>
+        </label>
+
+        <label class="labelInput">
+          <span data-l="label.selectWiringLanding"></span>
+          <select id="selectWiringLanding"></select>
+        </label><br>
+
+        <label class="labelInput spaceRight">
+          <button id="buttonFindWiring" data-l="button.findWiring"></button>
+        </label>
+
+        <label class="labelInput">
           <select id="selectWiringOrder">
-            <option>↑ 小 → 大 / ↓ 小 → 大</option>
-            <option>↑ 大 → 小 / ↓ 小 → 大</option>
-            <option>↑ 小 → 大 / ↓ 大 → 小</option>
-            <option>↑ 大 → 小 / ↓ 大 → 小</option>
+            <option data-l="option.up-asc" selected></option>
+            <option data-l="option.up-des"></option>
+            <option data-l="option.down-asc"></option>
+            <option data-l="option.down-des"></option>
           </select>
         </label>
 
-        <label class="checkLabel">
+        <label class="labelInput">
           <input id="checkWiringView" type="checkbox" checked>
-          <span>検索後に先頭を表示</span>
-        </label>
-      </div>
+          <span data-l="label.checkWiringView"></span>
+        </label><br>
 
-      <div class="resultLayout">
-        <div id="divWiring">
-          <canvas id="canvasWiring" width="32" height="320"></canvas>
-        </div>
+        <p class="pResult">
+          <span data-l="label.wiringResultsMatch"></span><br>
+          <span class="spanWiringResults"></span>
+        </p><br>
 
-        <div class="results">
-          <div class="resultBlock">
-            <p class="pResult"><span data-l>◎</span> 一致（0f）</p>
-            <div class="spanWiringResults" data-result="0"></div>
-          </div>
+        <p class="pResult">
+          <span data-l="label.wiringResultsNear"></span><br>
+          <span class="spanWiringResults"></span>
+        </p><br>
 
-          <div class="resultBlock">
-            <p class="pResult"><span data-l>○</span> 近い（±1f）</p>
-            <div class="spanWiringResults" data-result="1"></div>
-          </div>
-
-          <div class="resultBlock">
-            <p class="pResult"><span data-l>△</span> ずれ（±2f）</p>
-            <div class="spanWiringResults" data-result="2"></div>
-          </div>
-
-          <p id="message" class="message" aria-live="polite">Delay と高さを入力して検索してください。</p>
-        </div>
+        <p class="pResult">
+          <span data-l="label.wiringResultsFar"></span><br>
+          <span class="spanWiringResults"></span>
+        </p>
       </div>
     </section>
 
-    <section class="panel notes">
-      <h2>表記</h2>
-      <p><code>↑R1G2R1-G2R1</code> のような文字列が配線パターン。結果をタップすると左の図が切り替わります。</p>
-      <p>計算は羽あり・地上の <code>relativeRailDelays</code>、<code>upOptions</code>、<code>gaps</code>、着地別加速度データを使用します。</p>
+    <hr>
+    <section>
+      <h2 data-l="head.images"></h2><br>
+
+      <img src="images/info/gaps.png" alt="gaps" height="180">
+      <img src="images/info/height.png" alt="height" height="180"><br>
+
+      <img src="images/info/landing.png" alt="landing patterns" height="240">
     </section>
   </main>
-
-  <script src="data.js"></script>
-  <script src="script.js"></script>
 </body>
 </html>
