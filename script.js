@@ -1110,7 +1110,7 @@ function drawWiring(str) {
 
   parts.forEach((part, i) => {
     const image = new Image();
-    image.src = `images/railParts/${partsNames[`${part}`[0]]}.png`;
+    image.src = `images/railparts/${partsNames[`${part}`[0]]}.png`;
 
     image.onload = () => context.drawImage(image, 0, 32 * i, 32, 32);
   });
