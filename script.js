@@ -804,8 +804,7 @@ function changeWiringType() {
   if (keys[1] == "water") keys = ["noWing", "ground"];
 
   const landingKeys = Object.keys(dataAssets[keys[0]][keys[1]].accelerationsList);
-  const landingNames = landingNamesList[selectLanguage.value] || landingNamesList.en;
-
+  const landingNames = landingNamesList.ja;
   selectWiringLanding.options.length = 0;
   landingKeys.forEach(key => addOption(selectWiringLanding, landingNames[key], key));
 }
