@@ -841,7 +841,7 @@ function changeOverview(isShow) {
     context.imageSmoothingEnabled = false;
 
     const space = new Image();
-    space.src = `images/railParts/space.png`;
+    space.src = `images/railparts/space.png`;
 
     space.onload = () => {
       context.globalAlpha = 0.6;
@@ -856,7 +856,7 @@ function changeOverview(isShow) {
 
       ["openU", "note", "openD"].forEach((name, p) => {
         const image = new Image();
-        image.src = `images/railParts/${name}.png`;
+        image.src = `images/railparts/${name}.png`;
 
         image.onload = () => {
           distances.forEach((distance, x) => {
@@ -1182,5 +1182,5 @@ selectWiringOrder.addEventListener("change", setWiringResult);
 
 [...partsNames, "note"].forEach(name => {
   const img = document.createElement("img");
-  img.src = `images/railParts/${name}.png`;
+  img.src = `images/railparts/${name}.png`;
 });
