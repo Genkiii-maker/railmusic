@@ -19,12 +19,10 @@ const sortableRange = 4;
 const selectBaseKey = getElm("#selectBaseKey");
 
 function setSelectBaseKey() {
-  const keyNamesList = {
-    ja: ["ド", "ド#", "レ", "レ#", "ミ", "ファ", "ファ#", "ソ", "ソ#", "ラ", "ラ#", "シ"],
-    en: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-  };
-
-  const keyNames = keyNamesList[selectLanguage.value] || keyNamesList.en;
+  const keyNames = [
+  "ド", "ド#", "レ", "レ#", "ミ", "ファ",
+  "ファ#", "ソ", "ソ#", "ラ", "ラ#", "シ"
+];
   selectBaseKey.options.length = 0;
 
   for (let i = 27; i >= 0; i --) {
