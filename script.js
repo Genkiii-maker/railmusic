@@ -16,10 +16,6 @@ function clearCell(tableInd, rowInd, cellInd) {
 const tableLength = 100;
 const sortableRange = 4;
 
-const selectTrack = getElm("#selectTrack");
-for (let i = 1; i <= 16; i ++) addOption(selectTrack, i);
-selectTrack.selectedIndex = 2;
-
 const selectBaseKey = getElm("#selectBaseKey");
 
 function setSelectBaseKey() {
@@ -228,101 +224,6 @@ tables.forEach((table, t) => {
   const cell = tables[1].rows[r].cells[1];
   cell.contentEditable = false;
   cell.textContent = 0;
-});
-
-const inputSmf = getElm("#inputSmf");
-getElm("#buttonLoadSmf").addEventListener("click", () => {
-  const files = inputSmf.files;
-  if (!files.length) return;
-
-  const reader = new FileReader();
-  reader.readAsArrayBuffer(files[0]);
-
-  reader.onload = () => {
-    const midi = MidiParser.parse(new Uint8Array(reader.result));
-
-    if (!midi) {
-      alert("無効なMIDIファイルです。");
-      return;
-    }
-
-    if (midi.format != 1) {
-      alert("フォーマット1しか対応してません。申し訳ない...");
-      return;
-    }
-
-    tickUnit = midi.tickUnit;
-    inputTickUnit.value = tickUnit;
-
-    const track = midi.tracks[selectTrack.selectedIndex];
-
-    if (!track) {
-      alert("トラックがありません。");
-      return;
-    }
-
-    const events = track.events;
-    const eventsLength = events.length;
-    let notes = [];
-    let lastNote = {};
-
-    for (let i = 0; i < eventsLength; i ++) {
-      const event = events[i];
-      const { type, data } = event;
-
-      if (type == 255 && event.meta == 1) {
-        const text = data.toLowerCase();
-        if (text == "mmstart") {
-          notes = [];
-          continue;
-        }
-
-        if (text == "mmend") break;
-      }
-
-      if (notes.length) notes[notes.length - 1].tick += event.dt;
-      if (type == 9 && data[1] > 0) {
-        const key = data[0];
-
-        notes.push({ tick: 0, key });
-        lastNote = { index: i, key, tick: event.tick };
-      }
-    }
-
-    const notesLength = notes.length;
-    if (!notesLength) {
-      alert("そのトラックにはなんもありません。");
-      return;
-    }
-
-    for (let i = lastNote.index; i < eventsLength; i ++) {
-      const event = events[i];
-
-      if (event.type == 8 && event.data[0] == lastNote.key) {
-        notes[notesLength - 1].tick = event.tick - lastNote.tick;
-        break;
-      }
-    }
-
-    const baseKey = notes[0].key;
-
-    selectNoteInput.selectedIndex = 0;
-    changeNoteInput(false);
-
-    stopPlay();
-    clearRows(0, [2, 3, 4]);
-
-    const row2Cells = tables[0].rows[2].cells;
-    const row4Cells = tables[0].rows[4].cells;
-
-    const minLength = Math.min(tableLength, notesLength);
-    for (let c = 1; c <= minLength; c ++) {
-      row2Cells[c].textContent = notes[c - 1].tick;
-      row4Cells[c].textContent = notes[c - 1].key - baseKey;
-    }
-
-    calcAllNotes();
-  }
 });
 
 const inputBeatValue = getElm("#inputBeatValue");
