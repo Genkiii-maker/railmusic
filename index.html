@@ -15,72 +15,66 @@
   <title data-l="title"></title>
 </head>
  
-  <label class="labelInput">
-        Language:
-        <select id="selectLanguage"></select>
-      </label>
-</header>
-
 <body>
   <main>
     <hr>
     <section>
-      <h2 data-l="head.collectingGenerator"></h2>
-      <p class="pSubH" data-l="text.collectingGeneratorDesc"></p><br>
+      <h2>集音生成</h2>
+      <p class="pSubH">羽あり/なし，地上/水中の集音を作成します</p><br>
 
       <label class="labelInput">
-        <span data-l="label.selectType"></span>
+        <span>集音タイプ</span>
 
         <select id="selectType">
-          <option value="wing-ground" data-l="option.wing-ground" selected></option>
-          <option value="noWing-ground" data-l="option.noWing-ground"></option>
-          <option value="wing-water" data-l="option.wing-water"></option>
-          <option value="noWing-water" data-l="option.noWing-water"></option>
+          <option value="wing-ground" selected>羽あり，地上</option>
+          <option value="noWing-ground">羽なし，地上</option>
+          <option value="wing-water">羽あり，水中</option>
+          <option value="noWing-water">羽なし，水中</option>
         </select>
       </label><br>
 
       <label class="labelInput">
-        <span data-l="label.inputTickUnit"></span>
+        <span>4分音価</span>
         <input id="inputTickUnit" type="number" value="480" step="1" min="1">
       </label><br>
 
       <label class="labelInput spaceRight">
-        <span data-l="label.inputBeatValue"></span>
+        <span>4分符長[f]</span>
         <input id="inputBeatValue" type="number" step="any">
       </label>
 
       <p class="pResult">
         <span data-l="label.spanBpm"></span>
-        <span id="spanBpm"></span>
+        <span>BPM:</span>
       </p><br>
 
       <label class="labelInput">
-        <span data-l="label.selectBaseKey"></span>
+        <span>基準音:</span>
         <select id="selectBaseKey"></select>
       </label>
 
       <label class="labelInput spaceRight">
-        <button id="buttonPlay" data-l="button.play"></button>
+        <button id="buttonPlay">演奏</button>
       </label>
 
       <label class="labelInput">
-        <span data-l="label.selectInstrument"></span>
+        <span>音色</span>
         <select id="selectInstrument">
-          <option data-l="option.sine"></option>
-          <option data-l="option.triangle"></option>
-          <option data-l="option.square" selected></option>
-          <option data-l="option.sawtooth"></option>
+          <option>正弦波</option>
+          <option>三角波</option></option>
+          <option selected>矩形波</option>
+          <option>ノコギリ波</option>
         </select>
       </label>
 
       <label class="labelInput">
-        <button id="buttonStopPlay" data-l="button.stopPlay"></button>
+        <button id="buttonStopPlay">演奏停止</button>
       </label>
 
       <div class="divScroll">
         <table id="table0">
-          <tr><th data-l="cell.index"></th></tr>
-          <tr><th data-l="cell.memo"></th></tr>
+          <tr><th>番号</th></tr>
+          <tr><th>メモ</th></tr>
           <tr><th>
             <label class="labelInput">
               <select id="selectNoteInput">
