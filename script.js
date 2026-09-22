@@ -57,16 +57,6 @@ function changeNoteInput(isClearRows = true)  {
 selectNoteInput.addEventListener("change", changeNoteInput);
 changeNoteInput(false);
 
-selectLanguage.addEventListener("change", () => {
-  setSelectBaseKey();
-  changeWiringType();
-
-  setTimeout(() => {
-    const cell = selectNoteInput.parentNode.parentNode;
-    cell.title = selectNoteInput.options[selectNoteInput.selectedIndex].title;
-  }, 500);
-});
-
 const selectLanding = getElm("#selectLanding");
 let typeKeys;
 
