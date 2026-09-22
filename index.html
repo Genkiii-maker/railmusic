@@ -78,50 +78,50 @@
           <tr><th>
             <label class="labelInput">
               <select id="selectNoteInput">
-                <option data-l="option.tickUnit" selected></option>
-                <option data-l="option.nthNote"></option>
+                <option selected>n分符</option>
+                <option >音価</option>
               </select>
             </label>
           </th></tr>
-          <tr><th data-l="cell.noteValue"></th></tr>
-          <tr><th data-l="cell.notePitch"></th></tr>
+          <tr><th>符長[f]</</th></tr>
+          <tr><th>音高[b]</th></tr>
         </table>
       </div>
 
       <label class="labelInput">
-        <button id="buttonCalcTable0" data-l="button.calcTable0"></button>
+        <button id="buttonCalcTable0">ここまで計算</button>
       </label><br>
 
       <label class="labelInput">
-        <span data-l="label.selectLoading"></span>
+        <span>読み込みタイプ:</span>
         <select id="selectLoading">
-          <option data-l="option.instantLoad" selected></option>
-          <option data-l="option.freeFall"></option>
-          <option data-l="option.verticalScroll"></option>
-          <option data-l="option.horizontalScroll"></option>
+          <option　selected>全て同時</option>
+          <option>自由落下</option>
+          <option>縦スクロール</option>
+          <option>横スクロール</option>
         </select>
       </label>
 
       <label class="labelInput invisible">
         <select id="selectLoadingInput">
-          <option data-l="option.custom"></option>
-          <option data-l="option.slownessAve" selected></option>
-          <option data-l="option.slownessCycle"></option>
+          <option>カスタム</option>
+          <option selected>平均遅度</option>
+          <option>遅度周期</option>
         </select>
       </label><br>
 
       <label class="labelInput invisible">
-        <span data-l="label.inputScrollSlownessAve"></span>
+        <span>平均スクロール遅度[f/b]:</span>
         <input id="inputScrollSlownessAve" type="number" step="any">
       </label>
 
       <label class="labelInput invisible">
-        <span data-l="label.inputScrollSlownessCycle"></span>
+        <span>スクロール遅度循環[f/b]:</span>
         <input id="inputScrollSlownessCycle" type="text" placeholder="e.g. 6, 7, 6, 6, 7">
       </label>
 
       <label class="labelInput">
-        <span data-l="label.selectLanding"></span>
+        <span>着線パターン:</span>
         <select id="selectLanding">
           <option data-l="option.custom"></option>
         </select>
@@ -129,27 +129,27 @@
 
       <div class="divScroll">
         <table id="table1">
-          <tr><th data-l="cell.index"></th></tr>
-          <tr><th data-l="cell.memo"></th></tr>
-          <tr><th data-l="cell.time"></th></tr>
-          <tr><th data-l="cell.interColumnDelay"></th></tr>
+          <tr><th>番号</th></tr>
+          <tr><th>メモ</th></tr>
+          <tr><th>時刻[f]</th></tr>
+          <tr><th>列間遅延[f]</th></tr>
           <tr class="invisible"><th data-l="cell.scrollDelay"></th></tr>
-          <tr><th data-l="cell.yDifference"></th></tr>
+          <tr><th>y差[b]</th></tr>
         </table>
       </div>
 
       <label class="labelInput spaceRight">
-        <span data-l="label.inputBaseDelay"></span>
+        <span>基準遅延[f]:</span>
         <input id="inputBaseDelay" type="number" step="1">
       </label>
 
       <label class="labelInput">
-        <span data-l="label.inputBaseHeight"></span>
+        <span>基準高さ[b]:</span>
         <input id="inputBaseHeight" type="number" step="1" min="0">
       </label><br>
 
       <label class="labelInput spaceRight">
-        <button id="buttonSortWirings" data-l="buttonSortWirings"></button>
+        <button id="buttonSortWirings">集音する</button>
       </label>
 
       <p class="pResult">
@@ -158,17 +158,17 @@
 
       <div class="divScroll">
         <table id="table2">
-          <tr><th data-l="cell.index"></th></tr>
-          <tr><th data-l="cell.memo"></th></tr>
-          <tr><th data-l="cell.delay"></th></tr>
-          <tr><th data-l="cell.height"></th></tr>
-          <tr><th data-l="cell.isWirable"></th></tr>
-          <tr><th data-l="cell.show"></th></tr>
+          <tr><th>番号</th></tr>
+          <tr><th>メモ</th></tr>
+          <tr><th>遅延[f]</th></tr>
+          <tr><th>高さ[b]</th></tr>
+          <tr><th>配置可</th></tr>
+          <tr><th>表示</th></tr>
         </table>
       </div>
 
       <label class="labelInput spaceRight">
-        <button id="buttonChangeOverview" data-l="button.changeOverview"></button>
+        <button id="buttonChangeOverview">全体像を表示/非表示</button>
       </label>
 
       <p class="pResult">
@@ -184,62 +184,62 @@
 
     <hr>
     <section>
-      <h2 data-l="head.wiringGenerator"></h2>
-      <p class="pSubH" data-l="text.wiringGeneratorDesc"></p><br>
+      <h2>縦断線式集音配線生成</h2>
+      <p class="pSubH">縦レールによる集音(ぜんまいメソッド)の配置を探します。</p><br>
 
       <canvas id="canvasWiring" width="32"></canvas>
 
       <div id="divWiring">
         <label class="labelInput spaceRight">
-          <span data-l="label.inputWiringDelay"></span>
+          <span>遅延[f]</span>
           <input id="inputWiringDelay" type="number" step="1">
         </label>
 
         <label class="labelInput">
-          <span data-l="label.inputWiringHeight"></span>
+          <span>高さ[b]:</span>
           <input id="inputWiringHeight" type="number" step="1" min="1">
         </label><br>
 
         <label class="labelInput spaceRight">
-          <span data-l="label.selectWiringType"></span>
+          <span>タイプ:</span>
           <select id="selectWiringType"></select>
         </label>
 
         <label class="labelInput">
-          <span data-l="label.selectWiringLanding"></span>
+          <span>着線時の形状:</span>
           <select id="selectWiringLanding"></select>
         </label><br>
 
         <label class="labelInput spaceRight">
-          <button id="buttonFindWiring" data-l="button.findWiring"></button>
+          <button id="buttonFindWiring">探す</button>
         </label>
 
         <label class="labelInput">
           <select id="selectWiringOrder">
-            <option data-l="option.up-asc" selected></option>
-            <option data-l="option.up-des"></option>
-            <option data-l="option.down-asc"></option>
-            <option data-l="option.down-des"></option>
+            <option selected>↑長さ, 短い順</option>
+            <option>↑長さ, 長い順</option>
+            <option>↓長さ, 短い順</option>
+            <option>↓長さ, 長い順</option>
           </select>
         </label>
 
         <label class="labelInput">
           <input id="checkWiringView" type="checkbox" checked>
-          <span data-l="label.checkWiringView"></span>
+          <span>実行時に画像表示</span>
         </label><br>
 
         <p class="pResult">
-          <span data-l="label.wiringResultsMatch"></span><br>
+          <span>一致:</span><br>
           <span class="spanWiringResults"></span>
         </p><br>
 
         <p class="pResult">
-          <span data-l="label.wiringResultsNear"></span><br>
+          <span>誤差:</span><br>
           <span class="spanWiringResults"></span>
         </p><br>
 
         <p class="pResult">
-          <span data-l="label.wiringResultsFar"></span><br>
+          <span>もっと誤差:</span><br>
           <span class="spanWiringResults"></span>
         </p>
       </div>
