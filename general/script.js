@@ -39,5 +39,3 @@ function changeVisible(element, isVisible, isToParent = true) {
   if (isVisible) classList.remove("invisible");
   else classList.add("invisible");
 }
-
-new Image()).src = "https://www.f-counter.net/j/65/1746873584/";
