@@ -1072,3 +1072,108 @@ selectWiringOrder.addEventListener("change", setWiringResult);
   const img = document.createElement("img");
   img.src = `images/railparts/${name}.png`;
 });
+
+// table0の入力内容をブラウザに保存
+const TABLE0_STORAGE_KEY = "railmusic-table0-v1";
+
+function saveTable0State() {
+  const state = {
+    memo: Array.from(tables[0].rows[1].cells)
+      .slice(1)
+      .map(cell => cell.textContent),
+
+    note: Array.from(tables[0].rows[2].cells)
+      .slice(1)
+      .map(cell => cell.textContent),
+
+    pitch: Array.from(tables[0].rows[4].cells)
+      .slice(1)
+      .map(cell => cell.textContent),
+
+    noteInputMode: selectNoteInput.selectedIndex
+  };
+
+  try {
+    localStorage.setItem(
+      TABLE0_STORAGE_KEY,
+      JSON.stringify(state)
+    );
+  } catch (error) {
+    // 保存できない環境では何もしない
+  }
+}
+
+function restoreTable0State() {
+  let state;
+
+  try {
+    const saved = localStorage.getItem(TABLE0_STORAGE_KEY);
+    if (!saved) return;
+
+    state = JSON.parse(saved);
+  } catch (error) {
+    return;
+  }
+
+  if (!state) return;
+
+  if (Number.isInteger(state.noteInputMode)) {
+    selectNoteInput.selectedIndex = state.noteInputMode;
+    changeNoteInput(false);
+  }
+
+  function restoreRow(rowIndex, values) {
+    if (!Array.isArray(values)) return;
+
+    values.forEach((value, i) => {
+      const cell = tables[0].rows[rowIndex].cells[i + 1];
+      if (cell) cell.textContent = value ?? "";
+    });
+  }
+
+  restoreRow(1, state.memo);
+  restoreRow(2, state.note);
+  restoreRow(4, state.pitch);
+
+  // 入力から計算される符長も復元後に再計算
+  calcAllNotes();
+}
+
+// 表への入力を検知して自動保存
+tables[0].addEventListener("input", event => {
+  const cell = event.target.closest("td");
+  if (!cell) return;
+
+  const rowIndex = cell.parentElement.rowIndex;
+
+  if ([1, 2, 4].includes(rowIndex)) {
+    saveTable0State();
+  }
+});
+
+// n分符 / 音価 の変更も保存
+selectNoteInput.addEventListener("change", saveTable0State);
+
+// ページを離れるときにも保存
+window.addEventListener("pagehide", saveTable0State);
+
+// 入力内容をリセット
+getElm("#buttonResetTable0").addEventListener("click", () => {
+  if (!confirm("表の入力内容をすべてリセットしますか？")) return;
+
+  [1, 2, 4].forEach(rowIndex => {
+    clearRow(0, rowIndex, 1);
+  });
+
+  // 計算結果の符長も消す
+  clearRow(0, 3, 1);
+
+  try {
+    localStorage.removeItem(TABLE0_STORAGE_KEY);
+  } catch (error) {
+    // 保存領域が使えない環境では何もしない
+  }
+});
+
+// 保存されている内容を復元
+restoreTable0State();
