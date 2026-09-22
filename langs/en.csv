@@ -1,6 +1,5 @@
 title,Wiring Generator | Track Conductor,
 head.top,Track Conductor,
-text.h1Desc,This is Currently Under Renovation.,
 head.collectingGenerator,Collecting Generator,
 text.collectingGeneratorDesc,Supports for Winged & Non-Winged - Ground & Underwater!,
 label.selectType,Collecting Type:,
